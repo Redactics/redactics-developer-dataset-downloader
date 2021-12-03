@@ -9,9 +9,9 @@ The following are some sample instructions you can tailor for use to download an
 
 ### Download and Apply a Redactics Dataset
 
-The following are some sample instructions you can tweak as needed to suit your purposes:
+The following are some sample instructions you can tweak as needed to suit your purposes. If you are using Windows these instructions assume you are running this from within a WSL Linux environment (e.g. Ubuntu):
 
-1. Run `docker-compose -f docker-compose-redactics.yml run downloader s3 cp s3://[your bucket name]/[your Redactics exported filename] /tmp/downloads`. This will copy `[your Redactics exported filename]` (e.g. `complete-dump.sql`) to the /tmp folder on your workstation. If you are using Windows these instructions assume you are running this from within a WSL Linux environment (e.g. Ubuntu)
+1. Run `docker-compose -f docker-compose-redactics.yml run downloader s3 cp s3://[your bucket name]/[your Redactics exported filename] /tmp/downloads`. This will copy `[your Redactics exported filename]` (e.g. `complete-dump.sql`) to the /tmp folder on your workstation.
 1. Make this file available to your database. If you are using Docker and your PostgreSQL service is called `postgres` you can add a volume mapping such as: `- /tmp:/tmp` to map your /tmp folder into your container.
 1. Restore from this file. If it is an `.sql` file and not a `.csv` you can do so by running: `pg_restore -c --if-exists -O -d [your database] -h [your host] -U [your postgres username] -W /tmp/[your Redactics exported filename]` (e.g. `complete-dump.sql`). The `-c` and `--if-exists` option assures this data is clean installed. If your PostgreSQL connection info is passed in as environment variables you can omit the `-d [your database]`, `-h [your host]`, `-U [your postgres username]`, and `-W` flag arguments. Full information on the pg_restore command can be found [here](https://www.postgresql.org/docs/12/app-pgrestore.html).
 1. You will probably also want to run a query to restore your user account with your proper email address so you can login as yourself, assuming your email address was altered by your Redactics workflow.
